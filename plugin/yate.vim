@@ -19,7 +19,7 @@
 " Installation:	Just drop this file in your plugin directory.
 "
 " Usage:		Command :YATE toggles visibility of search buffer.
-" 				Parameter g:YATE_window_height sets height of search buffer. Default = 15
+" 				Parameter g:YATE_window_height sets height of search buffer. Default = 15.
 " 				Parameter g:YATE_strip_long_paths enables(1)/disables(0) cutting of long file paths. Default = 1.
 " 				Parameter g:YATE_enable_real_time_search enables(1)/disables(0) as-you-type search. Default = 1.
 " 				Parameter g:YATE_min_symbols_to_search sets search string length threshold after
