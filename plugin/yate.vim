@@ -16,7 +16,14 @@
 " 				It holds query and search result in one buffer for faster jump to 
 " 				desired tag.
 "
+" 				Source code is also available on bitbucket: https://bitbucket.org/madevgeny/yate.
+"
 " Installation:	Just drop this file in your plugin directory.
+" 				If you use Vundle (https://github.com/gmarik/vundle/), you could add 
+"
+"				Bundle('https://bitbucket.org/madevgeny/yate.git')
+"
+"				to you Vundle config to install yate.
 "
 " Usage:		Command :YATE toggles visibility of search buffer.
 " 				Parameter g:YATE_window_height sets height of search buffer. Default = 15.
