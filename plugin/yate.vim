@@ -35,6 +35,7 @@
 " 				matches to display. If it's negative than all lines will be shown. Default = -1.
 " 				Parameter g:YATE_history_size sets the maximum number of
 " 				stored search queries in history. Default = 10.
+" 				Parameter g:YATE_clear_search_string controls clearing of search string on next YATE buffer invocation. Default = 1.
 " 				
 " 				To get list of matching tags set cursor on string containing expression
 " 				to search (in YATE buffer) then press <Tab> or <Enter>, never mind if 
@@ -52,11 +53,17 @@
 " 				search string. Autocompletion using history also works by
 " 				<Ctrl-X><Ctrl-U>.
 "
-" Version:		1.2.5
+" Version:		1.3.0
 "
-" ChangeLog:	1.2.5:	Force disable line numbering in YATE buffer.
+" ChangeLog:	1.3.0:	Added parameter g:YATE_clear_search_string to control
+"						clearing of search string on next YATE buffer invocation.
+"
+"				1.2.5:	Force disable line numbering in YATE buffer.
+"
 " 				1.2.4:	Fixed leaving of insert mode after leaving YATE buffer.
+"
 " 				1.2.3:	Insert mode is default in YATE buffer.
+"
 "				1.2.2:	Fixed cleaning of search string in some cases.
 "
 " 				1.2.1:	History menu (<Ctrl-H>) also works in normal mode.
@@ -134,6 +141,10 @@ endif
 
 if !exists("g:YATE_history_size")
 	let g:YATE_history_size = 10
+endif
+
+if !exists("g:YATE_clear_search_string")
+	let g:YATE_clear_search_string = 1
 endif
 
 if !exists("s:yate_history")
@@ -422,6 +433,10 @@ fun! <SID>ToggleTagExplorerBuffer()
 
 		let s:prev_mode = mode()
 		exe 'startinsert'
+
+		if g:YATE_clear_search_string
+			let s:user_line=''
+		endif
 
 		if !exists("s:first_time")
 			let s:user_line=''
