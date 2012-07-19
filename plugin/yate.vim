@@ -57,6 +57,9 @@
 "
 " ChangeLog:	1.3.0:	Added parameter g:YATE_clear_search_string to control
 "						clearing of search string on next YATE buffer invocation.
+"						Pressing <Enter> in search string if length of search
+"						string is more or equal g:YATE_min_symbols_to_search
+"						lead to open first tag in search results.
 "
 "				1.2.5:	Force disable line numbering in YATE buffer.
 "
@@ -156,7 +159,16 @@ command! -bang YATE :call <SID>ToggleTagExplorerBuffer()
 fun <SID>GotoTag(open_command)
 	let str=getline('.')
 
-	if !exists("s:tags_list") || !len(s:tags_list) || match(str,"^.*|.*|.*|.*$")
+	if !exists("s:tags_list") || !len(s:tags_list)
+		call <SID>GenerateTagsListCB()
+		return
+	endif
+
+	if line('.') == 1 && len(str) >= g:YATE_min_symbols_to_search
+		let str=getline(2)
+	endif
+
+	if match(str,"^.*|.*|.*|.*$")
 		call <SID>GenerateTagsListCB()
 		return
 	endif
@@ -435,7 +447,8 @@ fun! <SID>ToggleTagExplorerBuffer()
 		exe 'startinsert'
 
 		if g:YATE_clear_search_string
-			let s:user_line=''
+			let s:user_line = ''
+			let s:tags_list = []
 		endif
 
 		if !exists("s:first_time")
