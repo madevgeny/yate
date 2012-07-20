@@ -144,12 +144,12 @@ if !exists("g:YATE_max_matches_to_show")
 	let g:YATE_max_matches_to_show = -1
 endif
 
-if !exists("g:YATE_history_size")
-	let g:YATE_history_size = 10
-endif
-
 if !exists("g:YATE_clear_search_string")
 	let g:YATE_clear_search_string = 1
+endif
+
+if !exists("g:YATE_history_size")
+	let g:YATE_history_size = 10
 endif
 
 if !exists("s:yate_history")
