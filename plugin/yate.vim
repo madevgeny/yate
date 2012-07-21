@@ -55,7 +55,8 @@
 "
 " Version:		1.3.1
 "
-" ChangeLog:	1.3.1:	Disabled work of AutoComplPop plugin in YATE buffer.
+" ChangeLog:	1.3.2:
+" 				1.3.1:	Disabled work of AutoComplPop plugin in YATE buffer.
 "
 " 				1.3.0:	Added parameter g:YATE_clear_search_string to control
 "						clearing of search string on next YATE buffer invocation.
@@ -188,15 +189,17 @@ fun <SID>GotoTag(open_command)
 	exe ':'.s:yate_winnr.'bd!'
 	let s:yate_winnr=-1
 
-	exe ':'.a:open_command.' '.s:tags_list[index]['filename']
+	exe ':silent '.a:open_command.' '.s:tags_list[index]['filename']
 	let str=substitute(s:tags_list[index]['cmd'],"\*","\\\\*","g")
 	let str=substitute(str,"\[","\\\\[","g")
 	let str=substitute(str,"\]","\\\\]","g")
 	let str=substitute(str,"\\~","\\\\~","g")
 	let str=substitute(str,"\$/","*$/","g")
 	exe str
-	" Without it you should press Enter once again some times.
-	exe 'normal Q'
+
+	" Without it you should press Enter to suppress error mesage if there are
+	" no matches of corresponding regexp.
+	exe ':redraw'
 endfun
 
 fun <SID>AutoCompleteString(str)
