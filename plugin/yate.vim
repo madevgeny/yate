@@ -25,8 +25,8 @@
 "
 "				to you Vundle config to install yate.
 "
-" Usage:		Command :YATE toggles visibility of search buffer wich will be closed after tag was selected.
-"				Command :YATEStationary toggles visibility of search buffer wich will not be closed after tag is selected, instead cursor remains in YATE buffer to allow select another tag.
+" Usage:		Command :YATE toggles visibility of search buffer which will be closed after tag was selected.
+"				Command :YATEStationary toggles visibility of search buffer which will not be closed after tag is selected, instead cursor remains in YATE buffer to allow select another tag.
 " 				Parameter g:YATE_window_height sets height of search buffer. Default = 15.
 " 				Parameter g:YATE_strip_long_paths enables(1)/disables(0) cutting of long file paths. Default = 1.
 " 				Parameter g:YATE_enable_real_time_search enables(1)/disables(0) as-you-type search. Default = 1.
