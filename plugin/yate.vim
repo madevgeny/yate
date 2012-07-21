@@ -54,7 +54,7 @@
 " 				search string. Autocompletion using history also works by
 " 				<Ctrl-X><Ctrl-U>.
 "
-" Version:		1.3.1
+" Version:		1.4.0
 "
 " ChangeLog:	1.4.0:	Added command YATEStationary to look into several tags
 "						without reopen YATE buffer.
@@ -440,8 +440,6 @@ fun! <SID>ToggleTagExplorerBuffer(stationary)
 
 		exe printf("inoremap <expr> <buffer> <Enter> pumvisible() ? '<CR><C-O>:cal <SID>GotoTagE(%d)<CR>' : '<C-O>:cal <SID>GotoTagE(%d)<CR>'", a:stationary, a:stationary)
 		exe printf("noremap <silent> <buffer> <Enter> :cal <SID>GotoTag('e', %d)<CR>", a:stationary)
-
-"		exe printf("noremap <silent> <buffer> p :cal <SID>GotoTag('ped', %d)<CR>", a:stationary)
 
 		exe printf("noremap <silent> <buffer> <2-leftmouse> :cal <SID>GotoTag('e', %d)<CR>", a:stationary)
 		exe printf("inoremap <silent> <buffer> <2-leftmouse> <C-O>:cal <SID>GotoTag('e', %d)<CR>", a:stationary)
