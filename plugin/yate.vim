@@ -190,9 +190,6 @@ fun <SID>GotoTag(open_command, stationary)
 
 	let index=str2nr(str)
 
-	autocmd! BufLeave <buffer>
-	autocmd! BufEnter <buffer>
-
 	let pos_in_yate = getpos(".") " save cursor position may halp later
 	exe ':wincmd p'
 	if !a:stationary
@@ -217,9 +214,6 @@ fun <SID>GotoTag(open_command, stationary)
 		exe ':wincmd p'
 		call setpos('.', pos_in_yate)
 	endif
-
-	autocmd! BufLeave <buffer> OnBufLeave
-	autocmd! BufEnter <buffer> OnBufEnter
 endfun
 
 fun <SID>AutoCompleteString(str)
@@ -272,7 +266,7 @@ fun <SID>PrintTagsList()
 	exe 'normal dd$'
 
 	if (!exists("s:tags_list")) || (!len(s:tags_list))
-		autocmd CursorMovedI <buffer> call <SID>OnCursorMovedI()
+		autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1)
 		return
 	endif
 
@@ -318,7 +312,7 @@ fun <SID>PrintTagsList()
 		cal append(counter,str)
 	endfor
 
-	autocmd CursorMovedI <buffer> call <SID>OnCursorMovedI()
+	autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1)
 endfun
 
 fun! <SID>ShowHistory()
@@ -366,7 +360,7 @@ fun <SID>GenerateTagsListCB()
 	cal <SID>GenerateTagsList(getline('.'),1)
 endfun
 
-fun <SID>OnCursorMoved()
+fun <SID>OnCursorMoved(ins_mode)
 	if line('.') > 1
 		setlocal cul
 		setlocal noma
@@ -377,20 +371,10 @@ fun <SID>OnCursorMoved()
 		setlocal ma
 		
 		setlocal completefunc=CompleteYATEHistory
-	endif
-endfun
 
-fun <SID>OnCursorMovedI()
-	if line('.') > 1
-		setlocal cul
-		setlocal noma
-		
-		setlocal completefunc=''
-	else
-		setlocal nocul
-		setlocal ma
-
-		setlocal completefunc=CompleteYATEHistory
+		if a:ins_mode == 0
+			return
+		endif
 
 		if g:YATE_enable_real_time_search
 			let str=getline('.')
@@ -491,8 +475,8 @@ fun! <SID>ToggleTagExplorerBuffer(stationary)
 
 			autocmd BufUnload <buffer> exe 'let s:yate_winnr=-1'
 			autocmd BufLeave <buffer> call <SID>OnBufLeave()
-			autocmd CursorMoved <buffer> call <SID>OnCursorMoved()
-			autocmd CursorMovedI <buffer> call <SID>OnCursorMovedI()
+			autocmd CursorMoved <buffer> call <SID>OnCursorMoved(0)
+			autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1)
 			autocmd VimResized <buffer> call <SID>PrintTagsList()
 			autocmd BufEnter <buffer> call <SID>OnBufEnter()
 		endif
