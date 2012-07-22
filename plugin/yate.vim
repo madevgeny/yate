@@ -401,7 +401,7 @@ fun <SID>OnBufLeave()
 		exe 'AcpUnlock'
 	endif
 	if s:prev_mode != 'i'
-		exe 'stopinsert'
+		stopinsert
 	endif
 endfun
 
@@ -412,7 +412,7 @@ fun <SID>OnBufEnter()
 		exe 'AcpLock'
 	endif
 	let s:prev_mode = mode()
-	exe 'startinsert'
+	startinsert
 
 	call <SID>PrintTagsList()
 endfun
