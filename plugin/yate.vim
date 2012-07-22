@@ -190,6 +190,9 @@ fun <SID>GotoTag(open_command, stationary)
 
 	let index=str2nr(str)
 
+	autocmd! BufLeave <buffer>
+	autocmd! BufEnter <buffer>
+
 	let pos_in_yate = getpos(".") " save cursor position may halp later
 	exe ':wincmd p'
 	if !a:stationary
@@ -214,6 +217,9 @@ fun <SID>GotoTag(open_command, stationary)
 		exe ':wincmd p'
 		call setpos('.', pos_in_yate)
 	endif
+
+	autocmd! BufLeave <buffer> OnBufLeave
+	autocmd! BufEnter <buffer> OnBufEnter
 endfun
 
 fun <SID>AutoCompleteString(str)
