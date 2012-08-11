@@ -56,7 +56,7 @@
 "
 " Version:		1.4.0
 "
-" ChangeLog:	1.4.1:	Better work with history popup.
+" ChangeLog:	1.4.1:	Better work with history popup menu.
 "
 " 				1.4.0:	Added command YATEStationary to look into several tags
 "						without reopen YATE buffer.
