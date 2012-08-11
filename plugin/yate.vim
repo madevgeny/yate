@@ -56,7 +56,9 @@
 "
 " Version:		1.4.0
 "
-" ChangeLog:	1.4.0:	Added command YATEStationary to look into several tags
+" ChangeLog:	1.4.1:	Better work with history popup.
+"
+" 				1.4.0:	Added command YATEStationary to look into several tags
 "						without reopen YATE buffer.
 " 						Fixed conflict if already there is mapping on Q.
 "
@@ -266,7 +268,7 @@ fun <SID>PrintTagsList()
 	exe 'normal dd$'
 
 	if (!exists("s:tags_list")) || (!len(s:tags_list))
-		autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1)
+		autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1, 0)
 		return
 	endif
 
@@ -312,7 +314,7 @@ fun <SID>PrintTagsList()
 		cal append(counter,str)
 	endfor
 
-	autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1)
+	autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1, 0)
 endfun
 
 fun! <SID>ShowHistory()
@@ -360,7 +362,7 @@ fun <SID>GenerateTagsListCB()
 	cal <SID>GenerateTagsList(getline('.'),1)
 endfun
 
-fun <SID>OnCursorMoved(ins_mode)
+fun <SID>OnCursorMoved(ins_mode, force_update)
 	if line('.') > 1
 		setlocal cul
 		setlocal noma
@@ -378,7 +380,7 @@ fun <SID>OnCursorMoved(ins_mode)
 
 		if g:YATE_enable_real_time_search
 			let str=getline('.')
-			if s:user_line!=str 
+			if s:user_line!=str || a:force_update
 				if strlen(str)>=g:YATE_min_symbols_to_search
 					let save_cursor = winsaveview()
 					cal <SID>GenerateTagsList(str,0)
@@ -428,7 +430,7 @@ fun! <SID>ToggleTagExplorerBuffer(stationary)
 
 		exe "inoremap <silent> <buffer> <Tab> <C-O>:cal <SID>GenerateTagsListCB()<CR>"
 
-		exe printf("inoremap <expr> <buffer> <Enter> pumvisible() ? '<CR><C-O>:cal <SID>GotoTagE(%d)<CR>' : '<C-O>:cal <SID>GotoTagE(%d)<CR>'", a:stationary, a:stationary)
+		exe printf("inoremap <expr> <buffer> <Enter> pumvisible() ? '<CR><Up><End><C-O>:call <SID>OnCursorMoved(1, 1)<CR>' : '<C-O>:cal <SID>GotoTagE(%d)<CR>'", a:stationary)
 		exe printf("noremap <silent> <buffer> <Enter> :cal <SID>GotoTag('e', %d)<CR>", a:stationary)
 
 		exe printf("noremap <silent> <buffer> <2-leftmouse> :cal <SID>GotoTag('e', %d)<CR>", a:stationary)
@@ -475,8 +477,8 @@ fun! <SID>ToggleTagExplorerBuffer(stationary)
 
 			autocmd BufUnload <buffer> exe 'let s:yate_winnr=-1'
 			autocmd BufLeave <buffer> call <SID>OnBufLeave()
-			autocmd CursorMoved <buffer> call <SID>OnCursorMoved(0)
-			autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1)
+			autocmd CursorMoved <buffer> call <SID>OnCursorMoved(0, 0)
+			autocmd CursorMovedI <buffer> call <SID>OnCursorMoved(1, 0)
 			autocmd VimResized <buffer> call <SID>PrintTagsList()
 			autocmd BufEnter <buffer> call <SID>OnBufEnter()
 		endif
