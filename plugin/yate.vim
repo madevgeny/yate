@@ -54,9 +54,11 @@
 " 				search string. Autocompletion using history also works by
 " 				<Ctrl-X><Ctrl-U>.
 "
-" Version:		1.4.0
+" Version:		1.4.2
 "
-" ChangeLog:	1.4.1:	Better work with history popup menu.
+" ChangeLog:	1.4.2:	Removed yate buffer from buffers list.
+"
+"				1.4.1:	Better work with history popup menu.
 "
 " 				1.4.0:	Added command YATEStationary to look into several tags
 "						without reopen YATE buffer.
@@ -463,6 +465,8 @@ fun! <SID>ToggleTagExplorerBuffer(stationary)
 		let s:yate_winnr=bufnr(buffer_name)
 		
 		setlocal buftype=nofile
+		setlocal bufhidden=wipe
+		setlocal nobuflisted
 		setlocal noswapfile
 		setlocal nonumber
 
