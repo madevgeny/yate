@@ -54,11 +54,10 @@
 " 				search string. Autocompletion using history also works by
 " 				<Ctrl-X><Ctrl-U>.
 "
-" Version:		1.4.2
+" Version:		1.4.1
 "
-" ChangeLog:	1.4.2:	Removed yate buffer from buffers list.
-"
-"				1.4.1:	Better work with history popup menu.
+" ChangeLog:	1.4.1:	Removed yate buffer from buffers list.
+"						Better work with history popup menu.
 "
 " 				1.4.0:	Added command YATEStationary to look into several tags
 "						without reopen YATE buffer.
