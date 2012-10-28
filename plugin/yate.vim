@@ -56,7 +56,8 @@
 "
 " Version:		1.4.1
 "
-" ChangeLog:	1.4.1:	Removed yate buffer from buffers list.
+" ChangeLog:	1.4.1:	More accurate selection of window to open file in.
+" 						Removed yate buffer from buffers list.
 "						Better work with history popup menu.
 "
 " 				1.4.0:	Added command YATEStationary to look into several tags
@@ -194,7 +195,10 @@ fun <SID>GotoTag(open_command, stationary)
 	let index=str2nr(str)
 
 	let pos_in_yate = getpos(".") " save cursor position may halp later
-	exe ':wincmd p'
+
+	call <SID>GoToPrevWindow()
+
+	"exe ':wincmd p'
 	if !a:stationary
 		exe ':'.s:yate_winnr.'bd!'
 		let s:yate_winnr=-1
@@ -418,6 +422,75 @@ fun <SID>OnBufEnter()
 	startinsert
 
 	call <SID>PrintTagsList()
+endfun
+
+" This function is taken from NERD_tree.vim
+fun <SID>FirstUsableWindow()
+	let i = 1
+	while i <= winnr("$")
+		let bnum = winbufnr(i)
+		if bnum != -1 && getbufvar(bnum, '&buftype') ==# ''
+					\ && !getwinvar(i, '&previewwindow')
+					\ && (!getbufvar(bnum, '&modified') || &hidden)
+			return i
+		endif
+
+		let i += 1
+	endwhile
+	return -1
+endfun
+
+" This function is taken from NERD_tree.vim
+fun <SID>IsWindowUsable(winnumber)
+	"gotta split if theres only one window (i.e. the NERD tree)
+	if winnr("$") ==# 1
+		return 0
+	endif
+
+	let oldwinnr = winnr()
+	exe a:winnumber . "wincmd p"
+	let specialWindow = getbufvar("%", '&buftype') != '' || getwinvar('%', '&previewwindow')
+	let modified = &modified
+	exe oldwinnr . "wincmd p"
+
+	"if its a special window e.g. quickfix or another explorer plugin then we
+	"have to split
+	if specialWindow
+		return 0
+	endif
+
+	if &hidden
+		return 1
+	endif
+
+	return !modified || <SID>BufInWindows(winbufnr(a:winnumber)) >= 2
+endfun
+
+" This function is taken from NERD_tree.vim
+fun <SID>BufInWindows(bnum)
+	let cnt = 0
+	let winnum = 1
+	while 1
+		let bufnum = winbufnr(winnum)
+		if bufnum < 0
+			break
+		endif
+		if bufnum ==# a:bnum
+			let cnt = cnt + 1
+		endif
+		let winnum = winnum + 1
+	endwhile
+
+	return cnt
+endfun
+
+" This function is taken from NERD_tree.vim
+fun <SID>GoToPrevWindow()
+	if !<SID>IsWindowUsable(winnr("#"))
+		exe <SID>FirstUsableWindow() . "wincmd w"
+	else
+		exe 'wincmd p'
+	endif
 endfun
 
 fun! <SID>ToggleTagExplorerBuffer(stationary)
