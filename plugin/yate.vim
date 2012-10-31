@@ -56,7 +56,7 @@
 "
 " Version:		1.4.1
 "
-" ChangeLog:	1.4.1:	More accurate selection of window to open file in.
+" ChangeLog:	1.4.1:	Fixed issue with TabBar plugin.
 " 						Removed yate buffer from buffers list.
 "						Better work with history popup menu.
 "
