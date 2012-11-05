@@ -198,7 +198,6 @@ fun <SID>GotoTag(open_command, stationary)
 
 	call <SID>GoToPrevWindow()
 
-	"exe ':wincmd p'
 	if !a:stationary
 		exe ':'.s:yate_winnr.'bd!'
 		let s:yate_winnr=-1
