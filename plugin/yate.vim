@@ -496,7 +496,7 @@ fun! <SID>ToggleTagExplorerBuffer(stationary)
 	if !exists("s:yate_winnr") || s:yate_winnr==-1
 		let buffer_name = 'YATE'
 		if a:stationary
-			let buffer_name = 'YATE (stationary)'
+			let buffer_name = 'YATE\ (stationary)'
 		endif
 
 		exe "bo".g:YATE_window_height."sp ".buffer_name
