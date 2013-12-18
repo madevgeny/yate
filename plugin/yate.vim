@@ -54,9 +54,11 @@
 " 				search string. Autocompletion using history also works by
 " 				<Ctrl-X><Ctrl-U>.
 "
-" Version:		1.4.1
+" Version:		1.4.2
 "
-" ChangeLog:	1.4.1:	Fixed issue with TabBar plugin.
+" ChangeLog:	1.4.2:	Fixed error when running YATEStationary. Thanks to Eoin
+" Mcloughlin.
+"				1.4.1:	Fixed issue with TabBar plugin.
 " 						Removed yate buffer from buffers list.
 "						Better work with history popup menu.
 "
